@@ -1,0 +1,25 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "Home" },
+    { "file": "Services.dc.html", "x": 1560, "y": 0, "w": 1440, "h": 900, "title": "Services" },
+    { "file": "Contact.dc.html", "x": 3120, "y": 0, "w": 1440, "h": 900, "title": "Contact" },
+    {
+      "file": "Dashboard.dc.html",
+      "x": 0,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "Dashboard (post-summit)"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "brief",
+      "x": -360,
+      "y": 40,
+      "w": 320,
+      "text": "REV 2 -- corrections from Taj\n\nFIXED:\n- Palette: cream/orange OUT, clear + cool pastels IN. Aurora is placeholder while you decide the real background.\n- Glass: real liquid glass now (12% opacity, 60px blur, thin bright border, inner highlight). Not tinted overlay.\n- Nav: floating pill top-center with per-link hover pill (Services is shown in hover state on Home artboard).\n- Contact: template only, fields say '(to be added)'. Wire in via src/site.config.ts.\n- Dashboard: SINGLE nav (icons-only stowed). Hover expands. No more double-nav.\n\nRedirect anything else. I do NOT code Next.js until you approve."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}
