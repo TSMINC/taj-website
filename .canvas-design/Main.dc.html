@@ -10,20 +10,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap">
 <style>
   :root {
-    --bg: #eef1f7;
-    --ink: #131316;
-    --ink-muted: #55555c;
-    --ink-faint: #9a9aa2;
-    --accent: #4a5fc5;
-    /* Glass on light bg needs MORE opacity + TWO shadows + rim lighting.
-       See ~/.claude/skills/visual-depth-and-lighting for why. */
-    --glass-bg: rgba(255, 255, 255, 0.45);
-    --glass-bg-strong: rgba(255, 255, 255, 0.65);
-    --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(30, 40, 90, 0.05);
-    --glass-shadow: 0 32px 80px -18px rgba(50, 65, 140, 0.28), 0 6px 20px -6px rgba(50, 65, 140, 0.14);
+    --bg: #0d0f1a;
+    --ink: #f2f0eb;
+    --ink-muted: rgba(242, 240, 235, 0.68);
+    --ink-faint: rgba(242, 240, 235, 0.42);
+    --accent: #8ea3e8;
+    /* Dark-bg glass: low opacity, bright rim, strong shadow.
+       See ~/.claude/skills/visual-depth-and-lighting. */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-bg-strong: rgba(255, 255, 255, 0.14);
+    --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    --glass-shadow: 0 32px 80px -18px rgba(0, 0, 0, 0.6), 0 6px 20px -6px rgba(0, 0, 0, 0.35);
   }
   body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: var(--ink); }
-  a { color: var(--accent); } a:hover { color: #3a4bb0; }
+  a { color: var(--accent); } a:hover { color: #b3c3ef; }
   .artboard {
     width: 1440px;
     height: 900px;
@@ -33,17 +33,16 @@
     overflow: hidden;
     position: relative;
   }
-  /* Aurora mesh — SATURATED colors so blur has real content to distort.
-     Pastels + white bg = flat. Vivid + white bg = depth (verified). */
+  /* Aurora mesh — saturated colors on dark bg for real depth. */
   .aurora {
     position: absolute; inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 45% 35% at 12% 20%, rgba(80, 120, 255, 0.55), transparent 55%),
-      radial-gradient(ellipse 40% 35% at 88% 30%, rgba(255, 100, 160, 0.5), transparent 55%),
-      radial-gradient(ellipse 50% 40% at 70% 88%, rgba(80, 220, 200, 0.5), transparent 55%),
-      radial-gradient(ellipse 40% 35% at 22% 92%, rgba(180, 100, 240, 0.5), transparent 55%);
-    filter: blur(30px);
+      radial-gradient(ellipse 50% 40% at 12% 20%, rgba(140, 100, 220, 0.45), transparent 60%),
+      radial-gradient(ellipse 45% 40% at 88% 30%, rgba(230, 100, 160, 0.38), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 70% 88%, rgba(80, 190, 220, 0.35), transparent 60%),
+      radial-gradient(ellipse 45% 40% at 22% 92%, rgba(180, 120, 240, 0.35), transparent 60%);
+    filter: blur(40px);
   }
 
   /* Floating pill nav — center-top */
@@ -58,14 +57,14 @@
     gap: 4px;
     padding: 6px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(30px) saturate(180%);
     -webkit-backdrop-filter: blur(30px) saturate(180%);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.95),
-      inset 0 -1px 0 rgba(30, 40, 90, 0.06),
-      0 8px 24px -6px rgba(50, 65, 140, 0.22),
-      0 2px 6px -1px rgba(50, 65, 140, 0.14);
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      0 12px 32px -8px rgba(0, 0, 0, 0.5),
+      0 2px 6px -1px rgba(0, 0, 0, 0.3);
   }
   .pill-brand {
     padding: 8px 18px 8px 14px;
@@ -73,7 +72,7 @@
     font-size: 18px;
     letter-spacing: -0.01em;
     color: var(--ink);
-    border-right: 1px solid rgba(19, 19, 22, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
     margin-right: 4px;
   }
   .pill-link {
@@ -85,12 +84,12 @@
     font-weight: 500;
     transition: all 0.2s ease;
   }
-  .pill-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.55); }
-  .pill-link.active { color: var(--ink); background: rgba(255, 255, 255, 0.55); }
+  .pill-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
+  .pill-link.active { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
   .pill-link.hover-demo {
     color: var(--ink);
-    background: rgba(255, 255, 255, 0.55);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
     position: relative;
   }
   .pill-link.hover-demo::after {
@@ -175,7 +174,7 @@
   .btn-secondary {
     padding: 15px 32px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     color: var(--ink);
@@ -183,9 +182,9 @@
     font-size: 14px;
     font-weight: 500;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      inset 0 -1px 0 rgba(30, 40, 90, 0.08),
-      0 4px 12px -2px rgba(50, 65, 140, 0.15);
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      0 4px 12px -2px rgba(0, 0, 0, 0.3);
   }
 
   .footer-strip {
