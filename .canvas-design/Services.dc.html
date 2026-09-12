@@ -95,8 +95,9 @@
     flex: 1;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-    padding: 24px 64px 40px;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    padding: 20px 56px 32px;
     position: relative;
     z-index: 2;
     align-items: stretch;
@@ -105,32 +106,60 @@
     background: var(--glass-bg);
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border-radius: 32px;
-    padding: 44px 44px 40px;
+    border-radius: 24px;
+    padding: 28px 32px 26px;
     display: flex;
     flex-direction: column;
     box-shadow: var(--glass-inner), var(--glass-shadow);
+    min-height: 0;
   }
+  .svc-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .svc-cat {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(142, 163, 232, 0.14);
+  }
+  .svc-cat.trades { color: #e8b98e; background: rgba(232, 185, 142, 0.14); }
   .svc-icon {
-    width: 48px; height: 48px;
-    border-radius: 14px;
+    width: 40px; height: 40px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(20px);
     display: flex; align-items: center; justify-content: center;
-    margin-bottom: 24px;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.18),
       inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 4px 12px -2px rgba(0, 0, 0, 0.4);
+      0 2px 8px -2px rgba(0, 0, 0, 0.4);
   }
   .svc-icon svg { stroke: var(--ink); }
-  .svc-tag { color: var(--accent); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
-  .svc-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 34px; font-weight: 400; letter-spacing: -0.01em; margin: 0 0 12px; }
-  .svc-desc { color: var(--ink-muted); font-size: 15px; line-height: 1.55; margin: 0 0 24px; }
-  .svc-list { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 10px; }
-  .svc-list li { color: var(--ink); font-size: 13.5px; display: flex; align-items: center; gap: 10px; }
-  .svc-list li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-  .svc-cta { margin-top: auto; align-self: flex-start; padding: 12px 22px; border-radius: 999px; background: var(--ink); color: var(--bg); text-decoration: none; font-size: 13px; font-weight: 600; }
+  .svc-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; font-weight: 400; letter-spacing: -0.01em; margin: 0 0 10px; line-height: 1.1; }
+  .svc-desc { color: var(--ink-muted); font-size: 13.5px; line-height: 1.5; margin: 0 0 20px; flex: 1; }
+  .svc-cta {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+  .svc-cta:hover { background: rgba(255, 255, 255, 0.14); }
 
   .footer-strip { padding: 24px 64px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 12px; position: relative; z-index: 2; }
 </style>
@@ -141,53 +170,75 @@
   <nav class="pill-nav">
     <div class="pill-brand">[Your brand]</div>
     <a class="pill-link" href="#">Home</a>
+    <a class="pill-link" href="#">Products</a>
     <a class="pill-link active" href="#">Services</a>
     <a class="pill-link" href="#">Contact</a>
     <a class="pill-signin" href="#">Sign in</a>
   </nav>
 
   <div class="page-head">
-    <div class="page-eyebrow">What I do</div>
-    <h1>Two things, <em>done well</em>.</h1>
+    <div class="page-eyebrow">What we do</div>
+    <h1>Services, <em>end to end</em>.</h1>
   </div>
 
   <div class="services-grid">
     <div class="svc-card">
-      <div class="svc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="4"/>
-          <path d="M12 2v3M12 19v3M22 12h-3M5 12H2M18.36 5.64l-2.12 2.12M7.76 16.24l-2.12 2.12M18.36 18.36l-2.12-2.12M7.76 7.76 5.64 5.64"/>
-        </svg>
+      <div class="svc-card-head">
+        <div class="svc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <path d="M9 8h6M9 12h6M9 16h4"/>
+          </svg>
+        </div>
+        <div class="svc-cat">Software</div>
       </div>
-      <div class="svc-tag">01 &nbsp;·&nbsp; AI Systems</div>
-      <h2 class="svc-title">Custom AI, running on your infra.</h2>
-      <p class="svc-desc">Local and hybrid models, agent architectures, retrieval pipelines, and evaluations — delivered as running code you own, not a proof-of-concept.</p>
-      <ul class="svc-list">
-        <li>Local LLM integration (Ollama, llama.cpp)</li>
-        <li>Agent + tool-use architectures</li>
-        <li>Retrieval, memory, evaluations</li>
-        <li>Secure by default — nothing leaves your box unless you say so</li>
-      </ul>
-      <a class="svc-cta" href="#">Discuss a project</a>
+      <h2 class="svc-title">Building &amp; maintaining apps</h2>
+      <p class="svc-desc">Custom apps designed, built, and kept running — from initial spec through shipped product and long-term maintenance.</p>
+      <a class="svc-cta" href="#">Discuss a project →</a>
     </div>
 
     <div class="svc-card">
-      <div class="svc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="14" rx="2"/>
-          <path d="M3 9h18M8 14h2M14 14h2"/>
-        </svg>
+      <div class="svc-card-head">
+        <div class="svc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="14" rx="2"/>
+            <path d="M3 9h18M8 14h2M14 14h2"/>
+          </svg>
+        </div>
+        <div class="svc-cat">Software</div>
       </div>
-      <div class="svc-tag">02 &nbsp;·&nbsp; Web Software</div>
-      <h2 class="svc-title">Modern web, engineered.</h2>
-      <p class="svc-desc">Full-stack web applications built with TypeScript, React, and edge deployment. From design system through to shipped product with tests, CI, and observability.</p>
-      <ul class="svc-list">
-        <li>Next.js / TypeScript / React 19</li>
-        <li>Cloudflare Pages + Workers edge deploy</li>
-        <li>Stripe integration for payments</li>
-        <li>Design system, accessibility, performance budgets</li>
-      </ul>
-      <a class="svc-cta" href="#">Discuss a project</a>
+      <h2 class="svc-title">Building websites</h2>
+      <p class="svc-desc">Full-stack builds — TypeScript, modern frameworks, edge deployment. Fast, secure, tested, live on the internet.</p>
+      <a class="svc-cta" href="#">Discuss a project →</a>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>
+          </svg>
+        </div>
+        <div class="svc-cat">Software</div>
+      </div>
+      <h2 class="svc-title">Website design</h2>
+      <p class="svc-desc">Design-first work — visual system, layout, typography, motion. Handoff-ready or built to shipped code.</p>
+      <a class="svc-cta" href="#">Discuss a project →</a>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-card-head">
+        <div class="svc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>
+          </svg>
+        </div>
+        <div class="svc-cat trades">Trades</div>
+      </div>
+      <h2 class="svc-title">Electrician services</h2>
+      <p class="svc-desc">Residential and commercial electrical work — installation, repair, upgrades. Licensed, insured, code-compliant.</p>
+      <a class="svc-cta" href="#">Discuss a project →</a>
     </div>
   </div>
 

@@ -2,9 +2,10 @@ import { chromium } from "playwright";
 
 const pages = [
   { name: "01-home", url: "http://localhost:8765/preview-main.html" },
-  { name: "02-services", url: "http://localhost:8765/preview-services.html" },
-  { name: "03-contact", url: "http://localhost:8765/preview-contact.html" },
-  { name: "04-dashboard", url: "http://localhost:8765/preview-dashboard.html" },
+  { name: "02-products", url: "http://localhost:8765/preview-products.html" },
+  { name: "03-services", url: "http://localhost:8765/preview-services.html" },
+  { name: "04-contact", url: "http://localhost:8765/preview-contact.html" },
+  { name: "05-dashboard", url: "http://localhost:8765/preview-dashboard.html" },
 ];
 
 const browser = await chromium.launch();
