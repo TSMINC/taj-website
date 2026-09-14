@@ -2,6 +2,10 @@
 
 Project-scoped guidance for Claude Code in this repo. The global `~/.claude/CLAUDE.md` still applies; this file overrides only where noted.
 
+## Identity
+
+@.claude/identities/tajweb-la.md
+
 ## Project
 
 - **Purpose:** Marketing / portfolio site. Static export, no server-side code.
