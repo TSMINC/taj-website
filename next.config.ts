@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
-// Static export for GitHub Pages / Cloudflare Pages.
-// BASE_PATH env var lets prod publish under /taj-website (GH Pages project site)
-// while local dev stays at /.
+// Static export for Cloudflare Pages.
+// BASE_PATH env var lets prod publish under a subpath if ever needed;
+// Cloudflare Pages uses root by default so this stays empty.
 const basePath = process.env.BASE_PATH ?? "";
 
 const nextConfig: NextConfig = {
