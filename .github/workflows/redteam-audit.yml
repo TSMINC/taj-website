@@ -1,0 +1,132 @@
+name: redteam-audit
+
+on:
+  schedule:
+    - cron: "17 13 * * 1" # every Monday 13:17 UTC
+  workflow_dispatch: {}
+  pull_request:
+    paths:
+      - "package.json"
+      - "package-lock.json"
+      - "src/**"
+      - "workers/**"
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  audit:
+    name: dependency + secret + server-only audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: npm ci
+        run: npm ci --legacy-peer-deps
+
+      # -----------------------------------------------------------------
+      # 1. Dependency audit — moderate+ fails the job.
+      # -----------------------------------------------------------------
+      - name: npm audit (moderate+)
+        run: npm audit --audit-level=moderate
+
+      # -----------------------------------------------------------------
+      # 2. Dependency review (PR-only, license + advisory check).
+      # -----------------------------------------------------------------
+      - name: dependency-review
+        if: github.event_name == 'pull_request'
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+
+      # -----------------------------------------------------------------
+      # 3. Static build (need `out/` to grep).
+      # -----------------------------------------------------------------
+      - name: static build
+        run: npm run build
+
+      # -----------------------------------------------------------------
+      # 4. Secret grep of the built bundle.
+      # Prints file paths ONLY — never the matched content — so a real
+      # secret leaked into `out/` cannot be re-exfiltrated via a public
+      # CI log. Uses ripgrep (preinstalled on ubuntu-latest runners).
+      # -----------------------------------------------------------------
+      - name: secret grep (bundle) — paths only
+        shell: bash
+        run: |
+          set -u
+          patterns=(
+            'eyJhbGciOi[A-Za-z0-9_-]{5,}'    # base64 JWT header — Supabase service role, admin JWT, etc.
+            'sbp_[A-Za-z0-9]{40,}'           # Supabase personal access token
+            'sk-[A-Za-z0-9]{20,}'            # OpenAI-shape secret
+            'GOCSPX-[A-Za-z0-9_-]{20,}'      # Google OAuth client secret
+            'AKIA[0-9A-Z]{16}'               # AWS access key id
+            '0x[a-fA-F0-9]{40}'              # Ethereum-shape private key
+            '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+          )
+          hits=0
+          for p in "${patterns[@]}"; do
+            # -l = filenames only. -0 = NUL delimit so filenames with
+            # spaces don't leak into log formatting.
+            while IFS= read -r -d '' f; do
+              echo "::error file=$f::redteam: matched secret-shape pattern in built bundle (content withheld)"
+              hits=$((hits+1))
+            done < <(rg --hidden -l0 -e "$p" out/ 2>/dev/null || true)
+          done
+          if [ "$hits" -gt 0 ]; then
+            echo "redteam: $hits file(s) in out/ matched at least one secret pattern"
+            exit 1
+          fi
+          echo "redteam: no secret-shape hits in out/"
+
+      # -----------------------------------------------------------------
+      # 5. `import 'server-only'` enforcement.
+      # Any file imported (transitively) by a Client Component must NOT
+      # import a module marked `server-only`. We detect the OPPOSITE
+      # (a file that both has "use client" AND imports something with
+      # `server-only`) as a fast fail.
+      # -----------------------------------------------------------------
+      - name: server-only import enforcement
+        shell: bash
+        run: |
+          set -u
+          # Files that declare themselves server-only (contain: import 'server-only')
+          # Note: uses ripgrep. Prints paths only if a Client Component
+          # imports a server-only module.
+          server_only_modules=$(rg -l "^import ['\"]server-only['\"]" src/ workers/ 2>/dev/null || true)
+
+          if [ -z "$server_only_modules" ]; then
+            echo "server-only: no modules marked server-only yet — enforcement idle"
+            exit 0
+          fi
+
+          echo "server-only: checking client components for illegal imports"
+          hits=0
+          # For each server-only module, find client components that import it.
+          while IFS= read -r mod; do
+            base=$(basename "$mod" | sed 's/\.[jt]sx\?$//')
+            # Look for any file with "use client" that imports this basename.
+            while IFS= read -r client; do
+              if rg -q "from ['\"].*/${base}['\"]" "$client"; then
+                echo "::error file=$client::server-only violation: client component imports server-only module ${mod}"
+                hits=$((hits+1))
+              fi
+            done < <(rg -l "^['\"]use client['\"]" src/ 2>/dev/null || true)
+          done <<< "$server_only_modules"
+
+          if [ "$hits" -gt 0 ]; then
+            exit 1
+          fi
+          echo "server-only: no client components import server-only modules"
+
+      # -----------------------------------------------------------------
+      # 6. Hardcoded-name check (belt+suspenders w/ CI lint).
+      # -----------------------------------------------------------------
+      - name: hardcoded-name check
+        run: npm run check:name

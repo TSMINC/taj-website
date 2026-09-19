@@ -5,6 +5,24 @@
 **Author:** Claude (TAJWEB-LA)
 **Working name:** "Summit MVP" — provisional, held in `src/config/site.config.ts` and swappable in ONE edit.
 
+## Revisions
+
+### 2026-09-19 (r2) — third-party review corrections adopted
+
+The following sections are superseded by dedicated artifacts because the
+first draft had specific defects (secret placement, RLS gaps, ceremony
+without value). The uncorrected sections below remain for historical
+context only.
+
+| Original section                         | Superseded by                                                                                                                                                                                                                                                                              |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| §7 (Supabase data model + RLS)           | [`supabase/schema.sql`](../supabase/schema.sql) — `legal_texts` immutable table; `profiles.UPDATE` gets both `USING`+`WITH CHECK`; `contact_messages`+`tos_acceptances` revoked from anon; `has_accepted_current_legal()` gates stale users at the DB                                      |
+| §5 (dev/prod split — two Pages projects) | [`docs/architecture/cloudflare-pages.md`](./architecture/cloudflare-pages.md) — collapsed to ONE Pages project with branch-scoped env vars; real isolation comes from separate Supabase/Turnstile/Google, not from separate Pages projects. Cloudflare Access on all preview branches kept |
+| §6 (auth flow) + Turnstile mention       | [`docs/architecture/workers.md`](./architecture/workers.md) — full Worker route contract, Turnstile server-side verify + per-IP rate limit, `ip_hash` salt in Worker env (never in `legal.config.ts` — IPv4 space is trivially enumerable if the salt is public)                           |
+| §4 (name-agnostic config, single tier)   | [`docs/architecture/config-layering.md`](./architecture/config-layering.md) — three tiers (repo, CF Pages env, Worker env); name switch still one edit; secrets never in repo                                                                                                              |
+| §8 (ToS/Privacy discussion)              | [`docs/legal/pre-launch-gate.md`](./legal/pre-launch-gate.md) — pre-launch checklist with acceptance criteria (CalOPPA DNT, arbitration 30-day opt-out, small-claims carve-out, immutable text storage, minor age representation)                                                          |
+| §9 (red-team table)                      | [`.github/workflows/redteam-audit.yml`](../.github/workflows/redteam-audit.yml) — weekly + PR CI: npm audit, dependency-review, `out/` secret grep (paths only, no matched content), `import 'server-only'` enforcement                                                                    |
+
 ---
 
 ## 1. What we're building
