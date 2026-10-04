@@ -1,252 +1,395 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap">
-<style>
-  :root {
-    --bg: #0d0f1a;
-    --ink: #f2f0eb;
-    --ink-muted: rgba(242, 240, 235, 0.68);
-    --ink-faint: rgba(242, 240, 235, 0.42);
-    --accent: #8ea3e8;
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-    --glass-shadow: 0 32px 80px -18px rgba(0, 0, 0, 0.6), 0 6px 20px -6px rgba(0, 0, 0, 0.35);
-  }
-  body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: var(--ink); }
-  a { color: var(--accent); } a:hover { color: #b3c3ef; }
-  .artboard {
-    width: 1440px;
-    height: 900px;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
-  .aurora {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 50% 40% at 88% 18%, rgba(140, 100, 220, 0.45), transparent 60%),
-      radial-gradient(ellipse 45% 40% at 12% 42%, rgba(230, 100, 160, 0.38), transparent 60%),
-      radial-gradient(ellipse 55% 45% at 28% 88%, rgba(80, 190, 220, 0.35), transparent 60%),
-      radial-gradient(ellipse 45% 40% at 78% 92%, rgba(180, 120, 240, 0.35), transparent 60%);
-    filter: blur(40px);
-  }
+  <head>
+    <meta charset="utf-8" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        />
+        <style>
+          :root {
+            --bg: #0d0f1a;
+            --ink: #f2f0eb;
+            --ink-muted: rgba(242, 240, 235, 0.68);
+            --ink-faint: rgba(242, 240, 235, 0.42);
+            --accent: #8ea3e8;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-inner:
+              inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            --glass-shadow:
+              0 32px 80px -18px rgba(0, 0, 0, 0.6), 0 6px 20px -6px rgba(0, 0, 0, 0.35);
+          }
+          body {
+            margin: 0;
+            font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+            color: var(--ink);
+          }
+          a {
+            color: var(--accent);
+          }
+          a:hover {
+            color: #b3c3ef;
+          }
+          .artboard {
+            width: 1440px;
+            height: 900px;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+          }
+          .aurora {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+              radial-gradient(
+                ellipse 50% 40% at 88% 18%,
+                rgba(140, 100, 220, 0.45),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 45% 40% at 12% 42%,
+                rgba(230, 100, 160, 0.38),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 55% 45% at 28% 88%,
+                rgba(80, 190, 220, 0.35),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 45% 40% at 78% 92%,
+                rgba(180, 120, 240, 0.35),
+                transparent 60%
+              );
+            filter: blur(40px);
+          }
 
-  .pill-nav {
-    position: absolute;
-    top: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 6px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 12px 32px -8px rgba(0, 0, 0, 0.5),
-      0 2px 6px -1px rgba(0, 0, 0, 0.3);
-  }
-  .pill-brand { padding: 8px 18px 8px 14px; font-family: 'Instrument Serif', Georgia, serif; font-size: 18px; letter-spacing: -0.01em; color: var(--ink); border-right: 1px solid rgba(255, 255, 255, 0.12); margin-right: 4px; }
-  .pill-link { padding: 10px 22px; border-radius: 999px; color: var(--ink-muted); text-decoration: none; font-size: 13.5px; font-weight: 500; }
-  .pill-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
-  .pill-link.active { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
-  .pill-signin { padding: 10px 20px; border-radius: 999px; background: var(--ink); color: var(--bg); text-decoration: none; font-size: 13px; font-weight: 600; margin-left: 6px; }
+          .pill-nav {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            box-shadow:
+              inset 0 1px 0 rgba(255, 255, 255, 0.18),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+              0 12px 32px -8px rgba(0, 0, 0, 0.5),
+              0 2px 6px -1px rgba(0, 0, 0, 0.3);
+          }
+          .pill-brand {
+            padding: 8px 18px 8px 14px;
+            font-family: "Instrument Serif", Georgia, serif;
+            font-size: 18px;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            margin-right: 4px;
+          }
+          .pill-link {
+            padding: 10px 22px;
+            border-radius: 999px;
+            color: var(--ink-muted);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 500;
+          }
+          .pill-link:hover {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.14);
+          }
+          .pill-link.active {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.14);
+          }
+          .pill-signin {
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: var(--ink);
+            color: var(--bg);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 6px;
+          }
 
-  .page-head {
-    padding: 116px 64px 32px;
-    text-align: center;
-    position: relative;
-    z-index: 2;
-  }
-  .page-eyebrow {
-    font-size: 11.5px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-  .page-head h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
-    font-size: 60px;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 0;
-  }
-  .page-head h1 em { font-style: italic; color: var(--accent); }
+          .page-head {
+            padding: 116px 64px 32px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+          }
+          .page-eyebrow {
+            font-size: 11.5px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            font-weight: 600;
+            margin-bottom: 14px;
+          }
+          .page-head h1 {
+            font-family: "Instrument Serif", Georgia, serif;
+            font-weight: 400;
+            font-size: 60px;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin: 0;
+          }
+          .page-head h1 em {
+            font-style: italic;
+            color: var(--accent);
+          }
 
-  .services-grid {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-    padding: 20px 56px 32px;
-    position: relative;
-    z-index: 2;
-    align-items: stretch;
-  }
-  .svc-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border-radius: 24px;
-    padding: 28px 32px 26px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--glass-inner), var(--glass-shadow);
-    min-height: 0;
-  }
-  .svc-card-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-  }
-  .svc-cat {
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(142, 163, 232, 0.14);
-  }
-  .svc-cat.trades { color: #e8b98e; background: rgba(232, 185, 142, 0.14); }
-  .svc-icon {
-    width: 40px; height: 40px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    display: flex; align-items: center; justify-content: center;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 2px 8px -2px rgba(0, 0, 0, 0.4);
-  }
-  .svc-icon svg { stroke: var(--ink); }
-  .svc-title { font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; font-weight: 400; letter-spacing: -0.01em; margin: 0 0 10px; line-height: 1.1; }
-  .svc-desc { color: var(--ink-muted); font-size: 13.5px; line-height: 1.5; margin: 0 0 20px; flex: 1; }
-  .svc-cta {
-    margin-top: auto;
-    align-self: flex-start;
-    padding: 10px 20px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 12.5px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-  }
-  .svc-cta:hover { background: rgba(255, 255, 255, 0.14); }
+          .services-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            grid-template-rows: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            padding: 20px 56px 32px;
+            position: relative;
+            z-index: 2;
+            align-items: stretch;
+          }
+          .svc-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 24px;
+            padding: 28px 32px 26px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--glass-inner), var(--glass-shadow);
+            min-height: 0;
+          }
+          .svc-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+          }
+          .svc-cat {
+            font-size: 10px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(142, 163, 232, 0.14);
+          }
+          .svc-cat.trades {
+            color: #e8b98e;
+            background: rgba(232, 185, 142, 0.14);
+          }
+          .svc-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow:
+              inset 0 1px 0 rgba(255, 255, 255, 0.18),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+              0 2px 8px -2px rgba(0, 0, 0, 0.4);
+          }
+          .svc-icon svg {
+            stroke: var(--ink);
+          }
+          .svc-title {
+            font-family: "Instrument Serif", Georgia, serif;
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            margin: 0 0 10px;
+            line-height: 1.1;
+          }
+          .svc-desc {
+            color: var(--ink-muted);
+            font-size: 13.5px;
+            line-height: 1.5;
+            margin: 0 0 20px;
+            flex: 1;
+          }
+          .svc-cta {
+            margin-top: auto;
+            align-self: flex-start;
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 12.5px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow:
+              inset 0 1px 0 rgba(255, 255, 255, 0.14),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          }
+          .svc-cta:hover {
+            background: rgba(255, 255, 255, 0.14);
+          }
 
-  .footer-strip { padding: 24px 64px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 12px; position: relative; z-index: 2; }
-</style>
-</helmet>
-<div class="artboard">
-  <div class="aurora"></div>
+          .footer-strip {
+            padding: 24px 64px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--ink-faint);
+            font-size: 12px;
+            position: relative;
+            z-index: 2;
+          }
+        </style>
+      </helmet>
+      <div class="artboard">
+        <div class="aurora"></div>
 
-  <nav class="pill-nav">
-    <div class="pill-brand">[Your brand]</div>
-    <a class="pill-link" href="#">Home</a>
-    <a class="pill-link" href="#">Products</a>
-    <a class="pill-link active" href="#">Services</a>
-    <a class="pill-link" href="#">Contact</a>
-    <a class="pill-signin" href="#">Sign in</a>
-  </nav>
+        <nav class="pill-nav">
+          <div class="pill-brand">[Your brand]</div>
+          <a class="pill-link" href="#">Home</a>
+          <a class="pill-link" href="#">Products</a>
+          <a class="pill-link active" href="#">Services</a>
+          <a class="pill-link" href="#">Contact</a>
+          <a class="pill-signin" href="#">Sign in</a>
+        </nav>
 
-  <div class="page-head">
-    <div class="page-eyebrow">What we do</div>
-    <h1>Services, <em>end to end</em>.</h1>
-  </div>
-
-  <div class="services-grid">
-    <div class="svc-card">
-      <div class="svc-card-head">
-        <div class="svc-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="3" width="16" height="18" rx="2"/>
-            <path d="M9 8h6M9 12h6M9 16h4"/>
-          </svg>
+        <div class="page-head">
+          <div class="page-eyebrow">What we do</div>
+          <h1>Services, <em>end to end</em>.</h1>
         </div>
-        <div class="svc-cat">Software</div>
-      </div>
-      <h2 class="svc-title">Building &amp; maintaining apps</h2>
-      <p class="svc-desc">Custom apps designed, built, and kept running — from initial spec through shipped product and long-term maintenance.</p>
-      <a class="svc-cta" href="#">Discuss a project →</a>
-    </div>
 
-    <div class="svc-card">
-      <div class="svc-card-head">
-        <div class="svc-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="14" rx="2"/>
-            <path d="M3 9h18M8 14h2M14 14h2"/>
-          </svg>
+        <div class="services-grid">
+          <div class="svc-card">
+            <div class="svc-card-head">
+              <div class="svc-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="4" y="3" width="16" height="18" rx="2" />
+                  <path d="M9 8h6M9 12h6M9 16h4" />
+                </svg>
+              </div>
+              <div class="svc-cat">Software</div>
+            </div>
+            <h2 class="svc-title">Building &amp; maintaining apps</h2>
+            <p class="svc-desc">
+              Custom apps designed, built, and kept running — from initial spec through shipped
+              product and long-term maintenance.
+            </p>
+            <a class="svc-cta" href="#">Discuss a project →</a>
+          </div>
+
+          <div class="svc-card">
+            <div class="svc-card-head">
+              <div class="svc-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="4" width="18" height="14" rx="2" />
+                  <path d="M3 9h18M8 14h2M14 14h2" />
+                </svg>
+              </div>
+              <div class="svc-cat">Software</div>
+            </div>
+            <h2 class="svc-title">Building websites</h2>
+            <p class="svc-desc">
+              Full-stack builds — TypeScript, modern frameworks, edge deployment. Fast, secure,
+              tested, live on the internet.
+            </p>
+            <a class="svc-cta" href="#">Discuss a project →</a>
+          </div>
+
+          <div class="svc-card">
+            <div class="svc-card-head">
+              <div class="svc-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"
+                  />
+                </svg>
+              </div>
+              <div class="svc-cat">Software</div>
+            </div>
+            <h2 class="svc-title">Website design</h2>
+            <p class="svc-desc">
+              Design-first work — visual system, layout, typography, motion. Handoff-ready or built
+              to shipped code.
+            </p>
+            <a class="svc-cta" href="#">Discuss a project →</a>
+          </div>
+
+          <div class="svc-card">
+            <div class="svc-card-head">
+              <div class="svc-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" />
+                </svg>
+              </div>
+              <div class="svc-cat trades">Trades</div>
+            </div>
+            <h2 class="svc-title">Electrician services</h2>
+            <p class="svc-desc">
+              Residential and commercial electrical work — installation, repair, upgrades. Licensed,
+              insured, code-compliant.
+            </p>
+            <a class="svc-cta" href="#">Discuss a project →</a>
+          </div>
         </div>
-        <div class="svc-cat">Software</div>
-      </div>
-      <h2 class="svc-title">Building websites</h2>
-      <p class="svc-desc">Full-stack builds — TypeScript, modern frameworks, edge deployment. Fast, secure, tested, live on the internet.</p>
-      <a class="svc-cta" href="#">Discuss a project →</a>
-    </div>
 
-    <div class="svc-card">
-      <div class="svc-card-head">
-        <div class="svc-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>
-          </svg>
+        <div class="footer-strip">
+          <div>Additional services on request</div>
+          <div>[YEAR] &nbsp;·&nbsp; [Your brand]</div>
         </div>
-        <div class="svc-cat">Software</div>
       </div>
-      <h2 class="svc-title">Website design</h2>
-      <p class="svc-desc">Design-first work — visual system, layout, typography, motion. Handoff-ready or built to shipped code.</p>
-      <a class="svc-cta" href="#">Discuss a project →</a>
-    </div>
-
-    <div class="svc-card">
-      <div class="svc-card-head">
-        <div class="svc-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>
-          </svg>
-        </div>
-        <div class="svc-cat trades">Trades</div>
-      </div>
-      <h2 class="svc-title">Electrician services</h2>
-      <p class="svc-desc">Residential and commercial electrical work — installation, repair, upgrades. Licensed, insured, code-compliant.</p>
-      <a class="svc-cta" href="#">Discuss a project →</a>
-    </div>
-  </div>
-
-  <div class="footer-strip">
-    <div>Additional services on request</div>
-    <div>[YEAR] &nbsp;·&nbsp; [Your brand]</div>
-  </div>
-</div>
-</x-dc>
-</body>
+    </x-dc>
+  </body>
 </html>

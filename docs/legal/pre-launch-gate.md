@@ -94,7 +94,7 @@ has a one-line acceptance criterion.
 - [ ] **No secret in built bundle** — CI `redteam-audit` workflow green
       for the release commit.
 - [ ] **No PII in application logs** — Worker logs `console.log("event
-    slug", { ok })` shape, no raw request bodies, no `env` object.
+  slug", { ok })` shape, no raw request bodies, no `env` object.
 - [ ] **All tables have RLS enabled + policies verified** — the audit
       query at the bottom of `supabase/schema.sql` returns only
       intended rows.

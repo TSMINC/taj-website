@@ -7,3 +7,13 @@ coverage
 playwright-report
 test-results
 package-lock.json
+
+# Approved design mockups from pre-code phase — not source
+.canvas-design
+
+# Legal docs have intentional formatting (bullet markers, indent) that
+# prettier reformats in ways that break the acceptance-criteria readability.
+docs/legal/pre-launch-gate.md
+
+# Supabase migrations are canonical SQL from the Management API — hands off.
+supabase/migrations

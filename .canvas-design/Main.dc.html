@@ -1,234 +1,292 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap">
-<style>
-  :root {
-    --bg: #0d0f1a;
-    --ink: #f2f0eb;
-    --ink-muted: rgba(242, 240, 235, 0.68);
-    --ink-faint: rgba(242, 240, 235, 0.42);
-    --accent: #8ea3e8;
-    /* Dark-bg glass: low opacity, bright rim, strong shadow.
+  <head>
+    <meta charset="utf-8" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        />
+        <style>
+          :root {
+            --bg: #0d0f1a;
+            --ink: #f2f0eb;
+            --ink-muted: rgba(242, 240, 235, 0.68);
+            --ink-faint: rgba(242, 240, 235, 0.42);
+            --accent: #8ea3e8;
+            /* Dark-bg glass: low opacity, bright rim, strong shadow.
        See ~/.claude/skills/visual-depth-and-lighting. */
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-bg-strong: rgba(255, 255, 255, 0.14);
-    --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-    --glass-shadow: 0 32px 80px -18px rgba(0, 0, 0, 0.6), 0 6px 20px -6px rgba(0, 0, 0, 0.35);
-  }
-  body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: var(--ink); }
-  a { color: var(--accent); } a:hover { color: #b3c3ef; }
-  .artboard {
-    width: 1440px;
-    height: 900px;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
-  /* Aurora mesh — saturated colors on dark bg for real depth. */
-  .aurora {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 50% 40% at 12% 20%, rgba(140, 100, 220, 0.45), transparent 60%),
-      radial-gradient(ellipse 45% 40% at 88% 30%, rgba(230, 100, 160, 0.38), transparent 60%),
-      radial-gradient(ellipse 55% 45% at 70% 88%, rgba(80, 190, 220, 0.35), transparent 60%),
-      radial-gradient(ellipse 45% 40% at 22% 92%, rgba(180, 120, 240, 0.35), transparent 60%);
-    filter: blur(40px);
-  }
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-bg-strong: rgba(255, 255, 255, 0.14);
+            --glass-inner:
+              inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            --glass-shadow:
+              0 32px 80px -18px rgba(0, 0, 0, 0.6), 0 6px 20px -6px rgba(0, 0, 0, 0.35);
+          }
+          body {
+            margin: 0;
+            font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+            color: var(--ink);
+          }
+          a {
+            color: var(--accent);
+          }
+          a:hover {
+            color: #b3c3ef;
+          }
+          .artboard {
+            width: 1440px;
+            height: 900px;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+          }
+          /* Aurora mesh — saturated colors on dark bg for real depth. */
+          .aurora {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+              radial-gradient(
+                ellipse 50% 40% at 12% 20%,
+                rgba(140, 100, 220, 0.45),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 45% 40% at 88% 30%,
+                rgba(230, 100, 160, 0.38),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 55% 45% at 70% 88%,
+                rgba(80, 190, 220, 0.35),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 45% 40% at 22% 92%,
+                rgba(180, 120, 240, 0.35),
+                transparent 60%
+              );
+            filter: blur(40px);
+          }
 
-  /* Floating pill nav — center-top */
-  .pill-nav {
-    position: absolute;
-    top: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 6px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 12px 32px -8px rgba(0, 0, 0, 0.5),
-      0 2px 6px -1px rgba(0, 0, 0, 0.3);
-  }
-  .pill-brand {
-    padding: 8px 18px 8px 14px;
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-size: 18px;
-    letter-spacing: -0.01em;
-    color: var(--ink);
-    border-right: 1px solid rgba(255, 255, 255, 0.12);
-    margin-right: 4px;
-  }
-  .pill-link {
-    padding: 10px 22px;
-    border-radius: 999px;
-    color: var(--ink-muted);
-    text-decoration: none;
-    font-size: 13.5px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-  }
-  .pill-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
-  .pill-link.active { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
-  .pill-link.hover-demo {
-    color: var(--ink);
-    background: rgba(255, 255, 255, 0.16);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-    position: relative;
-  }
-  .pill-link.hover-demo::after {
-    content: 'hover state ↑';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 8px;
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-weight: 500;
-    white-space: nowrap;
-  }
-  .pill-signin {
-    padding: 10px 20px;
-    border-radius: 999px;
-    background: var(--ink);
-    color: var(--bg);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    margin-left: 6px;
-  }
+          /* Floating pill nav — center-top */
+          .pill-nav {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            box-shadow:
+              inset 0 1px 0 rgba(255, 255, 255, 0.18),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+              0 12px 32px -8px rgba(0, 0, 0, 0.5),
+              0 2px 6px -1px rgba(0, 0, 0, 0.3);
+          }
+          .pill-brand {
+            padding: 8px 18px 8px 14px;
+            font-family: "Instrument Serif", Georgia, serif;
+            font-size: 18px;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            margin-right: 4px;
+          }
+          .pill-link {
+            padding: 10px 22px;
+            border-radius: 999px;
+            color: var(--ink-muted);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+          }
+          .pill-link:hover {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.14);
+          }
+          .pill-link.active {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.14);
+          }
+          .pill-link.hover-demo {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.16);
+            box-shadow:
+              inset 0 1px 0 rgba(255, 255, 255, 0.2),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+            position: relative;
+          }
+          .pill-link.hover-demo::after {
+            content: "hover state ↑";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 8px;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            font-weight: 500;
+            white-space: nowrap;
+          }
+          .pill-signin {
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: var(--ink);
+            color: var(--bg);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 6px;
+          }
 
-  .hero {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 64px;
-    position: relative;
-    z-index: 2;
-  }
-  .hero-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border-radius: 36px;
-    padding: 88px 96px;
-    max-width: 920px;
-    text-align: center;
-    box-shadow: var(--glass-inner), var(--glass-shadow);
-  }
-  .hero-eyebrow {
-    font-size: 11.5px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 24px;
-    font-weight: 600;
-  }
-  .hero h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
-    font-size: 84px;
-    line-height: 1.02;
-    letter-spacing: -0.025em;
-    margin: 0 0 28px;
-    color: var(--ink);
-  }
-  .hero h1 em { font-style: italic; color: var(--accent); }
-  .hero p {
-    font-size: 18px;
-    line-height: 1.55;
-    color: var(--ink-muted);
-    margin: 0 auto 40px;
-    max-width: 540px;
-  }
-  .cta-row { display: flex; gap: 12px; justify-content: center; }
-  .btn-primary {
-    padding: 15px 32px;
-    border-radius: 999px;
-    background: var(--ink);
-    color: var(--bg);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  .btn-secondary {
-    padding: 15px 32px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.14),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 4px 12px -2px rgba(0, 0, 0, 0.3);
-  }
+          .hero {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 64px;
+            position: relative;
+            z-index: 2;
+          }
+          .hero-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 36px;
+            padding: 88px 96px;
+            max-width: 920px;
+            text-align: center;
+            box-shadow: var(--glass-inner), var(--glass-shadow);
+          }
+          .hero-eyebrow {
+            font-size: 11.5px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            margin-bottom: 24px;
+            font-weight: 600;
+          }
+          .hero h1 {
+            font-family: "Instrument Serif", Georgia, serif;
+            font-weight: 400;
+            font-size: 84px;
+            line-height: 1.02;
+            letter-spacing: -0.025em;
+            margin: 0 0 28px;
+            color: var(--ink);
+          }
+          .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+          }
+          .hero p {
+            font-size: 18px;
+            line-height: 1.55;
+            color: var(--ink-muted);
+            margin: 0 auto 40px;
+            max-width: 540px;
+          }
+          .cta-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+          }
+          .btn-primary {
+            padding: 15px 32px;
+            border-radius: 999px;
+            background: var(--ink);
+            color: var(--bg);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+          }
+          .btn-secondary {
+            padding: 15px 32px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow:
+              inset 0 1px 0 rgba(255, 255, 255, 0.14),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+              0 4px 12px -2px rgba(0, 0, 0, 0.3);
+          }
 
-  .footer-strip {
-    padding: 28px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--ink-faint);
-    font-size: 12px;
-    position: relative;
-    z-index: 2;
-  }
-  .dot { width: 6px; height: 6px; border-radius: 50%; background: #4bb37a; display: inline-block; margin-right: 8px; vertical-align: middle; box-shadow: 0 0 6px rgba(75, 179, 122, 0.6); }
-</style>
-</helmet>
-<div class="artboard">
-  <div class="aurora"></div>
+          .footer-strip {
+            padding: 28px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--ink-faint);
+            font-size: 12px;
+            position: relative;
+            z-index: 2;
+          }
+          .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4bb37a;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+            box-shadow: 0 0 6px rgba(75, 179, 122, 0.6);
+          }
+        </style>
+      </helmet>
+      <div class="artboard">
+        <div class="aurora"></div>
 
-  <nav class="pill-nav">
-    <div class="pill-brand">[Your brand]</div>
-    <a class="pill-link active" href="#">Home</a>
-    <a class="pill-link" href="#">Products</a>
-    <a class="pill-link hover-demo" href="#">Services</a>
-    <a class="pill-link" href="#">Contact</a>
-    <a class="pill-signin" href="#">Sign in</a>
-  </nav>
+        <nav class="pill-nav">
+          <div class="pill-brand">[Your brand]</div>
+          <a class="pill-link active" href="#">Home</a>
+          <a class="pill-link" href="#">Products</a>
+          <a class="pill-link hover-demo" href="#">Services</a>
+          <a class="pill-link" href="#">Contact</a>
+          <a class="pill-signin" href="#">Sign in</a>
+        </nav>
 
-  <div class="hero">
-    <div class="hero-card">
-      <div class="hero-eyebrow">Products &nbsp;·&nbsp; Services</div>
-      <h1>Software built. <em>Sites launched.</em> Circuits wired.</h1>
-      <p>Apps, websites, and electrical work — designed, built, and kept running. Products on the way.</p>
-      <div class="cta-row">
-        <a class="btn-primary" href="#">Start a project</a>
-        <a class="btn-secondary" href="#">See services</a>
+        <div class="hero">
+          <div class="hero-card">
+            <div class="hero-eyebrow">Products &nbsp;·&nbsp; Services</div>
+            <h1>Software built. <em>Sites launched.</em> Circuits wired.</h1>
+            <p>
+              Apps, websites, and electrical work — designed, built, and kept running. Products on
+              the way.
+            </p>
+            <div class="cta-row">
+              <a class="btn-primary" href="#">Start a project</a>
+              <a class="btn-secondary" href="#">See services</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-strip">
+          <div><span class="dot"></span>Available for new projects</div>
+          <div>[YEAR] &nbsp;·&nbsp; [Your brand]</div>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <div class="footer-strip">
-    <div><span class="dot"></span>Available for new projects</div>
-    <div>[YEAR] &nbsp;·&nbsp; [Your brand]</div>
-  </div>
-</div>
-</x-dc>
-</body>
+    </x-dc>
+  </body>
 </html>

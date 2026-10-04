@@ -4,12 +4,13 @@
  * Shared sign-in/sign-up form. Same component for both routes — only
  * difference is the headline copy and whether the ToS checkbox is required.
  *
- * Supports: Google OAuth + Email magic link. (Apple OAuth is an iOS-app
- * requirement, not a web requirement — see docs/architecture/security-review.md.)
+ * Supports: Email magic link only. Google OAuth is wired in src/lib/auth.ts
+ * but intentionally not exposed in the UI yet — flip to true when Taj
+ * creates the Google OAuth client and configures Supabase.
  */
 
 import { useState } from "react";
-import { signInWithOAuth, signInWithEmail, isSupabaseConfigured } from "../../lib/auth";
+import { signInWithEmail, isSupabaseConfigured } from "../../lib/auth";
 import { siteConfig } from "../../config/site.config";
 
 type Mode = "signin" | "signup";
@@ -17,27 +18,12 @@ type Mode = "signin" | "signup";
 export function AuthForm({ mode }: { mode: Mode }) {
   const [email, setEmail] = useState("");
   const [tosAccepted, setTosAccepted] = useState(mode === "signin");
-  const [sending, setSending] = useState<null | "google" | "email">(null);
+  const [sending, setSending] = useState<null | "email">(null);
   const [emailSent, setEmailSent] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   const configured = isSupabaseConfigured();
   const canSubmit = tosAccepted && !sending && configured;
-
-  async function doOAuth(provider: "google") {
-    setErr(null);
-    if (!tosAccepted) {
-      setErr("You must accept the Terms of Service and Privacy Policy.");
-      return;
-    }
-    try {
-      setSending(provider);
-      await signInWithOAuth(provider);
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : "Sign-in failed.");
-      setSending(null);
-    }
-  }
 
   async function doEmail(e: React.FormEvent) {
     e.preventDefault();
@@ -87,24 +73,6 @@ export function AuthForm({ mode }: { mode: Mode }) {
 
   return (
     <div className="space-y-4">
-      <div className="space-y-2">
-        <button
-          type="button"
-          onClick={() => doOAuth("google")}
-          disabled={!canSubmit}
-          className="flex w-full items-center justify-center gap-3 rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <GoogleIcon />
-          <span>{sending === "google" ? "Redirecting…" : `Continue with Google`}</span>
-        </button>
-      </div>
-
-      <div className="flex items-center gap-3 text-xs text-zinc-500">
-        <div className="h-px flex-1 bg-white/10" />
-        or
-        <div className="h-px flex-1 bg-white/10" />
-      </div>
-
       <form onSubmit={doEmail} className="space-y-3">
         <label className="block">
           <span className="mb-1.5 block text-xs font-medium text-zinc-400">Email</span>
@@ -123,7 +91,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
           disabled={!canSubmit}
           className="w-full rounded-lg bg-white px-4 py-2.5 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {sending === "email" ? "Sending link…" : "Continue with Email"}
+          {sending === "email" ? "Sending link…" : "Continue"}
         </button>
       </form>
 
@@ -156,16 +124,5 @@ export function AuthForm({ mode }: { mode: Mode }) {
         </div>
       )}
     </div>
-  );
-}
-
-function GoogleIcon() {
-  return (
-    <svg aria-hidden viewBox="0 0 24 24" width="18" height="18">
-      <path
-        fill="#EA4335"
-        d="M12 10.2v3.9h5.5c-.2 1.4-1.6 4-5.5 4-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.9 1.5L18.8 5C17 3.3 14.7 2.3 12 2.3 6.5 2.3 2 6.8 2 12.3S6.5 22.3 12 22.3c6.9 0 11.5-4.9 11.5-11.7 0-.8-.1-1.4-.2-2H12z"
-      />
-    </svg>
   );
 }

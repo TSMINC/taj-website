@@ -1,234 +1,356 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap">
-<style>
-  :root {
-    --bg: #0d0f1a;
-    --ink: #f2f0eb;
-    --ink-muted: rgba(242, 240, 235, 0.68);
-    --ink-faint: rgba(242, 240, 235, 0.42);
-    --accent: #8ea3e8;
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-inner: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-    --glass-shadow: 0 32px 80px -18px rgba(0, 0, 0, 0.6), 0 6px 20px -6px rgba(0, 0, 0, 0.35);
-  }
-  body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: var(--ink); }
-  a { color: var(--accent); } a:hover { color: #b3c3ef; }
-  .artboard {
-    width: 1440px;
-    height: 900px;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
-  .aurora {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 50% 40% at 20% 20%, rgba(140, 100, 220, 0.45), transparent 60%),
-      radial-gradient(ellipse 45% 40% at 80% 25%, rgba(230, 100, 160, 0.38), transparent 60%),
-      radial-gradient(ellipse 55% 45% at 65% 90%, rgba(80, 190, 220, 0.35), transparent 60%),
-      radial-gradient(ellipse 45% 40% at 25% 88%, rgba(180, 120, 240, 0.35), transparent 60%);
-    filter: blur(40px);
-  }
+  <head>
+    <meta charset="utf-8" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        />
+        <style>
+          :root {
+            --bg: #0d0f1a;
+            --ink: #f2f0eb;
+            --ink-muted: rgba(242, 240, 235, 0.68);
+            --ink-faint: rgba(242, 240, 235, 0.42);
+            --accent: #8ea3e8;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-inner:
+              inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            --glass-shadow:
+              0 32px 80px -18px rgba(0, 0, 0, 0.6), 0 6px 20px -6px rgba(0, 0, 0, 0.35);
+          }
+          body {
+            margin: 0;
+            font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+            color: var(--ink);
+          }
+          a {
+            color: var(--accent);
+          }
+          a:hover {
+            color: #b3c3ef;
+          }
+          .artboard {
+            width: 1440px;
+            height: 900px;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+          }
+          .aurora {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+              radial-gradient(
+                ellipse 50% 40% at 20% 20%,
+                rgba(140, 100, 220, 0.45),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 45% 40% at 80% 25%,
+                rgba(230, 100, 160, 0.38),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 55% 45% at 65% 90%,
+                rgba(80, 190, 220, 0.35),
+                transparent 60%
+              ),
+              radial-gradient(
+                ellipse 45% 40% at 25% 88%,
+                rgba(180, 120, 240, 0.35),
+                transparent 60%
+              );
+            filter: blur(40px);
+          }
 
-  .pill-nav {
-    position: absolute;
-    top: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 6px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-      0 12px 32px -8px rgba(0, 0, 0, 0.5),
-      0 2px 6px -1px rgba(0, 0, 0, 0.3);
-  }
-  .pill-brand { padding: 8px 18px 8px 14px; font-family: 'Instrument Serif', Georgia, serif; font-size: 18px; letter-spacing: -0.01em; color: var(--ink); border-right: 1px solid rgba(255, 255, 255, 0.12); margin-right: 4px; }
-  .pill-link { padding: 10px 22px; border-radius: 999px; color: var(--ink-muted); text-decoration: none; font-size: 13.5px; font-weight: 500; }
-  .pill-link:hover { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
-  .pill-link.active { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
-  .pill-signin { padding: 10px 20px; border-radius: 999px; background: var(--ink); color: var(--bg); text-decoration: none; font-size: 13px; font-weight: 600; margin-left: 6px; }
+          .pill-nav {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            box-shadow:
+              inset 0 1px 0 rgba(255, 255, 255, 0.18),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+              0 12px 32px -8px rgba(0, 0, 0, 0.5),
+              0 2px 6px -1px rgba(0, 0, 0, 0.3);
+          }
+          .pill-brand {
+            padding: 8px 18px 8px 14px;
+            font-family: "Instrument Serif", Georgia, serif;
+            font-size: 18px;
+            letter-spacing: -0.01em;
+            color: var(--ink);
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            margin-right: 4px;
+          }
+          .pill-link {
+            padding: 10px 22px;
+            border-radius: 999px;
+            color: var(--ink-muted);
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 500;
+          }
+          .pill-link:hover {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.14);
+          }
+          .pill-link.active {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.14);
+          }
+          .pill-signin {
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: var(--ink);
+            color: var(--bg);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 6px;
+          }
 
-  .page-head {
-    padding: 120px 64px 20px;
-    text-align: center;
-    position: relative;
-    z-index: 2;
-  }
-  .page-eyebrow {
-    font-size: 11.5px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-  .page-head h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
-    font-size: 60px;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 0 0 12px;
-  }
-  .page-head h1 em { font-style: italic; color: var(--accent); }
-  .page-sub { color: var(--ink-muted); font-size: 15px; max-width: 520px; margin: 0 auto; line-height: 1.5; }
+          .page-head {
+            padding: 120px 64px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+          }
+          .page-eyebrow {
+            font-size: 11.5px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink-faint);
+            font-weight: 600;
+            margin-bottom: 14px;
+          }
+          .page-head h1 {
+            font-family: "Instrument Serif", Georgia, serif;
+            font-weight: 400;
+            font-size: 60px;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin: 0 0 12px;
+          }
+          .page-head h1 em {
+            font-style: italic;
+            color: var(--accent);
+          }
+          .page-sub {
+            color: var(--ink-muted);
+            font-size: 15px;
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.5;
+          }
 
-  .products-grid {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    padding: 32px 64px 32px;
-    position: relative;
-    z-index: 2;
-    align-items: stretch;
-  }
-  .product-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(40px) saturate(180%);
-    -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border-radius: 24px;
-    padding: 32px 32px 28px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--glass-inner), var(--glass-shadow);
-    position: relative;
-  }
-  .product-card.placeholder { opacity: 0.65; }
-  .product-thumb {
-    height: 180px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.04);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-    color: var(--ink-faint);
-    position: relative;
-    overflow: hidden;
-  }
-  .product-thumb::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(142, 163, 232, 0.08), transparent 60%);
-  }
-  .product-thumb svg { stroke: currentColor; fill: none; stroke-width: 1.5; opacity: 0.5; position: relative; z-index: 1; }
-  .product-tag {
-    display: inline-block;
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(142, 163, 232, 0.14);
-    margin-bottom: 12px;
-    align-self: flex-start;
-  }
-  .product-name { font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; font-weight: 400; letter-spacing: -0.01em; margin: 0 0 8px; line-height: 1.15; }
-  .product-desc { color: var(--ink-muted); font-size: 13px; line-height: 1.5; margin: 0 0 18px; flex: 1; }
-  .product-foot { display: flex; align-items: center; justify-content: space-between; }
-  .product-price { color: var(--ink); font-size: 13px; font-weight: 600; }
-  .product-cta {
-    padding: 8px 16px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-  }
+          .products-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            padding: 32px 64px 32px;
+            position: relative;
+            z-index: 2;
+            align-items: stretch;
+          }
+          .product-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 24px;
+            padding: 32px 32px 28px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--glass-inner), var(--glass-shadow);
+            position: relative;
+          }
+          .product-card.placeholder {
+            opacity: 0.65;
+          }
+          .product-thumb {
+            height: 180px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            color: var(--ink-faint);
+            position: relative;
+            overflow: hidden;
+          }
+          .product-thumb::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(142, 163, 232, 0.08), transparent 60%);
+          }
+          .product-thumb svg {
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            opacity: 0.5;
+            position: relative;
+            z-index: 1;
+          }
+          .product-tag {
+            display: inline-block;
+            font-size: 10px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(142, 163, 232, 0.14);
+            margin-bottom: 12px;
+            align-self: flex-start;
+          }
+          .product-name {
+            font-family: "Instrument Serif", Georgia, serif;
+            font-size: 26px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            margin: 0 0 8px;
+            line-height: 1.15;
+          }
+          .product-desc {
+            color: var(--ink-muted);
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0 0 18px;
+            flex: 1;
+          }
+          .product-foot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+          .product-price {
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 600;
+          }
+          .product-cta {
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow:
+              inset 0 1px 0 rgba(255, 255, 255, 0.14),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+          }
 
-  .footer-strip { padding: 20px 64px; display: flex; justify-content: space-between; color: var(--ink-faint); font-size: 12px; position: relative; z-index: 2; }
-</style>
-</helmet>
-<div class="artboard">
-  <div class="aurora"></div>
+          .footer-strip {
+            padding: 20px 64px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--ink-faint);
+            font-size: 12px;
+            position: relative;
+            z-index: 2;
+          }
+        </style>
+      </helmet>
+      <div class="artboard">
+        <div class="aurora"></div>
 
-  <nav class="pill-nav">
-    <div class="pill-brand">[Your brand]</div>
-    <a class="pill-link" href="#">Home</a>
-    <a class="pill-link active" href="#">Products</a>
-    <a class="pill-link" href="#">Services</a>
-    <a class="pill-link" href="#">Contact</a>
-    <a class="pill-signin" href="#">Sign in</a>
-  </nav>
+        <nav class="pill-nav">
+          <div class="pill-brand">[Your brand]</div>
+          <a class="pill-link" href="#">Home</a>
+          <a class="pill-link active" href="#">Products</a>
+          <a class="pill-link" href="#">Services</a>
+          <a class="pill-link" href="#">Contact</a>
+          <a class="pill-signin" href="#">Sign in</a>
+        </nav>
 
-  <div class="page-head">
-    <div class="page-eyebrow">What we ship</div>
-    <h1>Products, <em>coming soon</em>.</h1>
-    <p class="page-sub">First release in progress. This is the card shape — add products to <code>src/content/products.ts</code> and they render here automatically.</p>
-  </div>
+        <div class="page-head">
+          <div class="page-eyebrow">What we ship</div>
+          <h1>Products, <em>coming soon</em>.</h1>
+          <p class="page-sub">
+            First release in progress. This is the card shape — add products to
+            <code>src/content/products.ts</code> and they render here automatically.
+          </p>
+        </div>
 
-  <div class="products-grid">
-    <div class="product-card placeholder">
-      <div class="product-thumb">
-        <svg width="48" height="48" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 15h8"/></svg>
+        <div class="products-grid">
+          <div class="product-card placeholder">
+            <div class="product-thumb">
+              <svg width="48" height="48" viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M3 10h18M8 15h8" />
+              </svg>
+            </div>
+            <div class="product-tag">Placeholder</div>
+            <h3 class="product-name">[Product name]</h3>
+            <p class="product-desc">[One-sentence description — what it does, who it's for.]</p>
+            <div class="product-foot">
+              <div class="product-price">[$ / free]</div>
+              <a class="product-cta" href="#">View →</a>
+            </div>
+          </div>
+
+          <div class="product-card placeholder">
+            <div class="product-thumb">
+              <svg width="48" height="48" viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M3 10h18M8 15h8" />
+              </svg>
+            </div>
+            <div class="product-tag">Placeholder</div>
+            <h3 class="product-name">[Product name]</h3>
+            <p class="product-desc">[One-sentence description — what it does, who it's for.]</p>
+            <div class="product-foot">
+              <div class="product-price">[$ / free]</div>
+              <a class="product-cta" href="#">View →</a>
+            </div>
+          </div>
+
+          <div class="product-card placeholder">
+            <div class="product-thumb">
+              <svg width="48" height="48" viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M3 10h18M8 15h8" />
+              </svg>
+            </div>
+            <div class="product-tag">Placeholder</div>
+            <h3 class="product-name">[Product name]</h3>
+            <p class="product-desc">[One-sentence description — what it does, who it's for.]</p>
+            <div class="product-foot">
+              <div class="product-price">[$ / free]</div>
+              <a class="product-cta" href="#">View →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-strip">
+          <div>Grid populates from <code>src/content/products.ts</code></div>
+          <div>[YEAR] &nbsp;·&nbsp; [Your brand]</div>
+        </div>
       </div>
-      <div class="product-tag">Placeholder</div>
-      <h3 class="product-name">[Product name]</h3>
-      <p class="product-desc">[One-sentence description — what it does, who it's for.]</p>
-      <div class="product-foot">
-        <div class="product-price">[$ / free]</div>
-        <a class="product-cta" href="#">View →</a>
-      </div>
-    </div>
-
-    <div class="product-card placeholder">
-      <div class="product-thumb">
-        <svg width="48" height="48" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 15h8"/></svg>
-      </div>
-      <div class="product-tag">Placeholder</div>
-      <h3 class="product-name">[Product name]</h3>
-      <p class="product-desc">[One-sentence description — what it does, who it's for.]</p>
-      <div class="product-foot">
-        <div class="product-price">[$ / free]</div>
-        <a class="product-cta" href="#">View →</a>
-      </div>
-    </div>
-
-    <div class="product-card placeholder">
-      <div class="product-thumb">
-        <svg width="48" height="48" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 15h8"/></svg>
-      </div>
-      <div class="product-tag">Placeholder</div>
-      <h3 class="product-name">[Product name]</h3>
-      <p class="product-desc">[One-sentence description — what it does, who it's for.]</p>
-      <div class="product-foot">
-        <div class="product-price">[$ / free]</div>
-        <a class="product-cta" href="#">View →</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-strip">
-    <div>Grid populates from <code>src/content/products.ts</code></div>
-    <div>[YEAR] &nbsp;·&nbsp; [Your brand]</div>
-  </div>
-</div>
-</x-dc>
-</body>
+    </x-dc>
+  </body>
 </html>
