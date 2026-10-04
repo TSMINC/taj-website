@@ -4,7 +4,8 @@
  * Shared sign-in/sign-up form. Same component for both routes — only
  * difference is the headline copy and whether the ToS checkbox is required.
  *
- * Supports: Google OAuth, Apple OAuth, Email magic link.
+ * Supports: Google OAuth + Email magic link. (Apple OAuth is an iOS-app
+ * requirement, not a web requirement — see docs/architecture/security-review.md.)
  */
 
 import { useState } from "react";
@@ -16,14 +17,14 @@ type Mode = "signin" | "signup";
 export function AuthForm({ mode }: { mode: Mode }) {
   const [email, setEmail] = useState("");
   const [tosAccepted, setTosAccepted] = useState(mode === "signin");
-  const [sending, setSending] = useState<null | "google" | "apple" | "email">(null);
+  const [sending, setSending] = useState<null | "google" | "email">(null);
   const [emailSent, setEmailSent] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   const configured = isSupabaseConfigured();
   const canSubmit = tosAccepted && !sending && configured;
 
-  async function doOAuth(provider: "google" | "apple") {
+  async function doOAuth(provider: "google") {
     setErr(null);
     if (!tosAccepted) {
       setErr("You must accept the Terms of Service and Privacy Policy.");
@@ -96,16 +97,6 @@ export function AuthForm({ mode }: { mode: Mode }) {
           <GoogleIcon />
           <span>{sending === "google" ? "Redirecting…" : `Continue with Google`}</span>
         </button>
-
-        <button
-          type="button"
-          onClick={() => doOAuth("apple")}
-          disabled={!canSubmit}
-          className="flex w-full items-center justify-center gap-3 rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <AppleIcon />
-          <span>{sending === "apple" ? "Redirecting…" : `Continue with Apple`}</span>
-        </button>
       </div>
 
       <div className="flex items-center gap-3 text-xs text-zinc-500">
@@ -175,14 +166,6 @@ function GoogleIcon() {
         fill="#EA4335"
         d="M12 10.2v3.9h5.5c-.2 1.4-1.6 4-5.5 4-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.9 1.5L18.8 5C17 3.3 14.7 2.3 12 2.3 6.5 2.3 2 6.8 2 12.3S6.5 22.3 12 22.3c6.9 0 11.5-4.9 11.5-11.7 0-.8-.1-1.4-.2-2H12z"
       />
-    </svg>
-  );
-}
-
-function AppleIcon() {
-  return (
-    <svg aria-hidden viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M19.665 15.72c-.03-3.064 2.502-4.534 2.615-4.606-1.428-2.088-3.65-2.374-4.439-2.407-1.891-.189-3.69 1.112-4.651 1.112-.96 0-2.44-1.084-4.013-1.054-2.066.03-3.973 1.203-5.03 3.055-2.144 3.72-.55 9.233 1.544 12.252 1.025 1.479 2.247 3.138 3.84 3.08 1.542-.064 2.123-.998 3.983-.998 1.86 0 2.388.998 4.016.967 1.658-.03 2.709-1.505 3.72-2.991 1.173-1.718 1.657-3.383 1.686-3.47-.037-.014-3.235-1.242-3.271-4.94zm-3.06-9.079c.843-1.025 1.411-2.447 1.258-3.87-1.218.05-2.69.812-3.559 1.835-.779.908-1.46 2.355-1.273 3.75 1.356.105 2.728-.69 3.574-1.715z" />
     </svg>
   );
 }

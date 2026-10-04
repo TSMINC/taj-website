@@ -13,16 +13,16 @@ import { siteConfig } from "../config/site.config";
 
 export { isSupabaseConfigured };
 
-export type Provider = "google" | "apple" | "email";
+export type Provider = "google" | "email";
 
-/** OAuth sign-in (Google or Apple). Redirects browser away. */
-export async function signInWithOAuth(provider: "google" | "apple"): Promise<void> {
+/** Google OAuth sign-in. Redirects browser away. */
+export async function signInWithOAuth(provider: "google"): Promise<void> {
   const sb = requireSupabase();
   const { error } = await sb.auth.signInWithOAuth({
     provider,
     options: {
       redirectTo: `${siteConfig.url}/auth/callback`,
-      queryParams: provider === "google" ? { access_type: "offline", prompt: "consent" } : {},
+      queryParams: { access_type: "offline", prompt: "consent" },
     },
   });
   if (error) throw error;
