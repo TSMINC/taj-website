@@ -20,6 +20,13 @@ compatibility_date   = "2026-10-01"
 compatibility_flags  = ["nodejs_compat"]
 workers_dev          = true
 
+# CF Workers Builds runs this before packaging + deploying. We inject
+# per-branch NEXT_PUBLIC_* env vars via scripts/pre-build.mjs so the
+# dashboard doesn't need any per-env configuration.
+[build]
+# CF Workers Builds runs its own Install phase before this; just do env + build.
+command = "node scripts/pre-build.mjs && npm run build"
+
 [assets]
 directory             = "./out"
 not_found_handling    = "404-page"   # serve /404.html for unknown routes
