@@ -1,0 +1,39 @@
+# Cloudflare Worker — Turnstile server-side verification.
+# One Worker, two environments. Secrets (TURNSTILE_SECRET_KEY, IP_HASH_SALT)
+# are set via `wrangler secret put`, never in this file.
+#
+# Deploy dev:   wrangler deploy --env dev
+# Deploy prod:  wrangler deploy --env production
+#
+# Secrets to set once per environment:
+#   wrangler secret put TURNSTILE_SECRET_KEY --env dev
+#   wrangler secret put TURNSTILE_SECRET_KEY --env production
+#   wrangler secret put IP_HASH_SALT         --env dev
+#   wrangler secret put IP_HASH_SALT         --env production
+
+name = "summit-turnstile-verify"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+[observability]
+enabled = true
+
+# ---- Dev environment ----
+[env.dev]
+name = "summit-turnstile-verify-dev"
+workers_dev = true
+
+[env.dev.vars]
+ALLOWED_ORIGIN = "https://develop.summit.pages.dev"
+ENVIRONMENT    = "dev"
+
+# ---- Production environment ----
+[env.production]
+name = "summit-turnstile-verify"
+workers_dev = true
+
+[env.production.vars]
+ALLOWED_ORIGIN = "https://summit.pages.dev"
+ENVIRONMENT    = "prod"

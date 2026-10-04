@@ -1,0 +1,16 @@
+{
+  "name": "@summit/turnstile-verify",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy:dev": "wrangler deploy --env dev",
+    "deploy:prod": "wrangler deploy --env production",
+    "secrets:dev": "echo Set TURNSTILE_SECRET_KEY + IP_HASH_SALT via: wrangler secret put NAME --env dev",
+    "secrets:prod": "echo Set TURNSTILE_SECRET_KEY + IP_HASH_SALT via: wrangler secret put NAME --env production"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250100.0",
+    "typescript": "^5"
+  }
+}
