@@ -1,0 +1,29 @@
+# Root Worker — serves the Next.js static export via Workers Static Assets.
+#
+# Cloudflare's "Workers with Static Assets" model (2024+) replaces the
+# classic Pages flow. The build pipeline is:
+#   1. CI Build: `npm run build` -> emits ./out
+#   2. CI Deploy: `npx wrangler deploy` -> publishes ./out as the Worker's
+#      static asset bundle. Also publishes any src/worker.ts entrypoint
+#      (optional; we don't need one yet).
+#
+# Routes:
+#   production branch (main)      -> taj-website.taj-website.workers.dev
+#   preview branches (develop/
+#     stable/tester)              -> <branch>.taj-website.workers.dev
+#
+# API Workers (Turnstile, contact, Stripe webhook later) live under
+# workers/*/ with their own wrangler.toml and are published separately.
+
+name                 = "taj-website"
+compatibility_date   = "2026-10-01"
+compatibility_flags  = ["nodejs_compat"]
+workers_dev          = true
+
+[assets]
+directory             = "./out"
+not_found_handling    = "404-page"   # serve /404.html for unknown routes
+run_worker_first      = false        # static files win; Worker only runs when no asset matches
+
+[observability]
+enabled = true
