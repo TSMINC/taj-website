@@ -38,7 +38,7 @@ jobs:
         run: npm run test -- --coverage
 
       - name: Upload coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: coverage
@@ -59,7 +59,7 @@ jobs:
         env:
           BASE_PATH: /${{ github.event.repository.name }}
         run: npm run build
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: static-site
           path: out
@@ -82,7 +82,7 @@ jobs:
         run: npm run build
       - name: Serve + E2E
         run: npx playwright test
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report
