@@ -33,7 +33,7 @@ const TURNSTILE_SITEVERIFY = "https://challenges.cloudflare.com/turnstile/v0/sit
 const RATE_LIMIT_PER_MIN = 60;
 const TOKEN_TTL_SECONDS = 300;
 
-export default {
+const worker = {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
 
@@ -106,6 +106,8 @@ export default {
     return json(200, { ok: true, ttl_seconds: TOKEN_TTL_SECONDS }, env, req);
   },
 };
+
+export default worker;
 
 // ---- helpers --------------------------------------------------------
 
