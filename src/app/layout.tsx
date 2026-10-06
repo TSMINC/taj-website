@@ -38,13 +38,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${raleway.variable} dark h-full antialiased`}>
       <body className="relative flex min-h-full flex-col [font-family:var(--font-raleway),ui-sans-serif,system-ui,sans-serif] text-white">
         <PlexusBackground />
-        <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-5 sm:px-12 lg:px-20">
-          <Link
-            href="/"
-            className="text-sm font-semibold tracking-[0.35em] text-white/85 uppercase transition hover:text-white sm:text-base"
-          >
-            {siteConfig.shortName}
-          </Link>
+        <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-4 px-6 py-5 sm:px-12 lg:px-20">
+          <div className="flex items-center gap-8">
+            <Link
+              href="/"
+              className="text-sm font-semibold tracking-[0.35em] text-white/85 uppercase transition hover:text-white sm:text-base"
+            >
+              {siteConfig.shortName}
+            </Link>
+            <nav className="hidden items-center gap-6 sm:flex">
+              <Link
+                href="/services"
+                className="text-xs font-medium tracking-wider text-white/65 uppercase transition hover:text-white"
+              >
+                Services
+              </Link>
+            </nav>
+          </div>
           <SessionIndicator />
         </header>
         <div className="relative z-10 flex-1">{children}</div>

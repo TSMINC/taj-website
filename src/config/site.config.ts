@@ -30,6 +30,8 @@ export const siteConfig = {
     support: "support@example.com",
     legal: "legal@example.com",
     privacy: "privacy@example.com",
+    /** Where inquiry buttons on the services page send mailto links. */
+    inquiry: "tajmoore74@yahoo.com",
   },
 
   /** Legal entity — used in ToS + Privacy Policy rendering. */
