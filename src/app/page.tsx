@@ -12,7 +12,7 @@ export default function Home() {
           {siteConfig.name}
         </h1>
         <p className="mt-6 text-base text-balance text-zinc-400 sm:text-lg">
-          {siteConfig.tagline || "A better way to build what you&rsquo;re building."}
+          {siteConfig.tagline || "A better way to build what you’re building."}
         </p>
         <div className="mt-10 flex items-center justify-center gap-3">
           <a
