@@ -11,19 +11,19 @@
 
 export const siteConfig = {
   /** Full display name — used in <title>, hero, footer, meta. */
-  name: "Summit MVP",
+  name: "Uniynode",
 
   /** Short/nav display name — used in the top nav bar. */
-  shortName: "Summit",
+  shortName: "Uniynode",
 
   /** One-line tagline. Empty string hides it. */
-  tagline: "",
+  tagline: "A network of connected minds.",
 
   /** Meta description for <head>. */
-  description: "TODO: description",
+  description: "Uniynode — a network of connected minds.",
 
   /** Canonical public URL (no trailing slash). Updated when the real domain lands. */
-  url: "https://summit-mvp.pages.dev",
+  url: "https://taj-website.taj-website.workers.dev",
 
   /** Contact email addresses per purpose. */
   email: {

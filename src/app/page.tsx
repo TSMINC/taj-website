@@ -1,33 +1,32 @@
+import type { Metadata } from "next";
 import { siteConfig } from "../config/site.config";
+import { HeroSignIn } from "../components/HeroSignIn";
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} — ${siteConfig.tagline}`,
+  description: siteConfig.description,
+};
 
 export default function Home() {
   return (
-    <main className="relative mx-auto max-w-6xl px-6 py-24">
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-br from-indigo-500/20 via-fuchsia-500/10 to-transparent blur-3xl" />
+    <main className="relative flex h-[calc(100vh-4rem)] w-full flex-col overflow-hidden px-6 pt-16 sm:px-12 lg:px-20">
+      <div className="flex flex-1 items-center">
+        <div className="w-full max-w-xl">
+          <h1 className="text-4xl leading-[1.05] font-light tracking-tight text-balance text-white sm:text-5xl lg:text-6xl">
+            Welcome to <br />
+            <span className="font-semibold">{siteConfig.name}</span>
+          </h1>
+          <p className="mt-5 max-w-md text-sm leading-relaxed text-balance text-white/70 sm:text-base">
+            {siteConfig.tagline} Sign in with your email to join the network.
+          </p>
+          <div className="mt-10 max-w-sm">
+            <HeroSignIn />
+          </div>
+        </div>
       </div>
 
-      <div className="mx-auto max-w-2xl text-center">
-        <h1 className="text-4xl font-semibold tracking-tight text-balance text-white sm:text-6xl">
-          {siteConfig.name}
-        </h1>
-        <p className="mt-6 text-base text-balance text-zinc-400 sm:text-lg">
-          {siteConfig.tagline || "A better way to build what you’re building."}
-        </p>
-        <div className="mt-10 flex items-center justify-center gap-3">
-          <a
-            href="/signup"
-            className="rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-black transition hover:bg-zinc-200"
-          >
-            Get started
-          </a>
-          <a
-            href="/login"
-            className="rounded-lg border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-white/10"
-          >
-            Sign in
-          </a>
-        </div>
+      <div className="pb-6 text-xs text-white/40 sm:pb-8">
+        © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
       </div>
     </main>
   );

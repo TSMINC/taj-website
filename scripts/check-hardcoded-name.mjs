@@ -34,7 +34,7 @@ const namesToFind = [
 const ALLOWED = [
   "src/config/", // where names ARE supposed to live
   "docs/", // docs may reference the name
-  "scripts/check-hardcoded-name.mjs", // this file
+  "scripts/", // infrastructure scripts reference the hosting URL
   "node_modules/",
   ".next/",
   "out/",
