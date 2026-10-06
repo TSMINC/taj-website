@@ -15,9 +15,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
     { url: `${base}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/faq`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${base}/portfolio`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/signup`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/login`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/legal/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/legal/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    {
+      url: `${base}/legal/do-not-sell`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
+    {
+      url: `${base}/legal/rights-request`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
+    { url: `${base}/legal/dmca`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
   ];
 }

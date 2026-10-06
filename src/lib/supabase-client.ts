@@ -31,7 +31,11 @@ export function getSupabase(): SupabaseClient | null {
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
-      flowType: "pkce",
+      // Implicit flow (not PKCE) for magic-link email sign-in. PKCE
+      // requires the device that initiated the sign-in to hold a verifier
+      // in localStorage — cross-device (sign up on phone, click email on
+      // desktop) fails. Implicit works across devices.
+      flowType: "implicit",
     },
   });
 

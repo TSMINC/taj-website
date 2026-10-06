@@ -25,11 +25,12 @@ export const siteConfig = {
   /** Canonical public URL (no trailing slash). Updated when the real domain lands. */
   url: "https://taj-website.taj-website.workers.dev",
 
-  /** Contact email addresses per purpose. */
+  /** Contact email addresses per purpose. All route to Taj's inbox until
+   *  separate addresses + mailboxes are set up on a real domain. */
   email: {
-    support: "support@example.com",
-    legal: "legal@example.com",
-    privacy: "privacy@example.com",
+    support: "tajmoore74@yahoo.com",
+    legal: "tajmoore74@yahoo.com",
+    privacy: "tajmoore74@yahoo.com",
     /** Where inquiry buttons on the services page send mailto links. */
     inquiry: "tajmoore74@yahoo.com",
   },

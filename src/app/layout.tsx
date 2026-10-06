@@ -7,6 +7,7 @@ import { siteConfig } from "../config/site.config";
 import { getPublicEnv } from "../config/env";
 import { PlexusBackground } from "../components/PlexusBackground";
 import { SessionIndicator } from "../components/auth/SessionIndicator";
+import { CfAnalytics } from "../components/CfAnalytics";
 
 const raleway = Raleway({
   variable: "--font-raleway",
@@ -53,11 +54,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               >
                 Services
               </Link>
+              <Link
+                href="/pricing"
+                className="text-xs font-medium tracking-wider text-white/65 uppercase transition hover:text-white"
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/about"
+                className="text-xs font-medium tracking-wider text-white/65 uppercase transition hover:text-white"
+              >
+                About
+              </Link>
+              <Link
+                href="/faq"
+                className="text-xs font-medium tracking-wider text-white/65 uppercase transition hover:text-white"
+              >
+                FAQ
+              </Link>
             </nav>
           </div>
           <SessionIndicator />
         </header>
         <div className="relative z-10 flex-1">{children}</div>
+        <CfAnalytics />
       </body>
     </html>
   );
