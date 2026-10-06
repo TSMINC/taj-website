@@ -4,7 +4,7 @@ import { siteConfig } from "../../config/site.config";
 
 export const metadata: Metadata = {
   title: `Sign up — ${siteConfig.name}`,
-  description: `Create a ${siteConfig.name} account with Google, Apple, or email.`,
+  description: `Create a ${siteConfig.name} account with your email.`,
   robots: { index: true, follow: true },
 };
 
