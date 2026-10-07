@@ -13,7 +13,7 @@ If you are a California resident, this Policy also serves as our notice at colle
 
 ### 1.1 Information you provide
 
-- **Account information:** When you sign up, we collect your email address. If you sign in with Google or Apple, we also receive the profile fields they return (typically name and avatar URL).
+- **Account information:** When you sign up, we collect your email address. Sign-in uses a one-time magic link emailed to you; we do not store a password.
 - **Communications:** If you contact us by email or through the Service, we store your message and the email address you sent it from.
 - **Payment information:** If you purchase a paid feature, Stripe collects your payment-method details directly; we receive only a tokenized reference, the amount, status, and your billing country.
 
@@ -25,7 +25,6 @@ If you are a California resident, this Policy also serves as our notice at colle
 
 ### 1.3 Information from third parties
 
-- **Identity providers (Google, Apple):** When you choose to sign in with them, they share the profile fields listed in § 1.1 with us. We do not receive your Google or Apple password.
 - **Payment processor (Stripe):** For completed transactions, Stripe shares the token, amount, status, and limited billing data as listed in § 1.1.
 
 ## 2. How We Use Information
@@ -50,7 +49,6 @@ We share personal information only with the following categories of recipients a
 - **Service providers acting on our behalf:**
   - **Supabase** — database and authentication (processor).
   - **Cloudflare** — hosting, edge delivery, DDoS and bot protection, Turnstile human verification (processor).
-  - **Google / Apple** — identity verification during sign-in (processors).
   - **Stripe** — payment processing (processor, for the limited data in § 1.1).
 - **Legal and safety:** We may disclose information when we believe in good faith it is necessary to comply with a legal obligation, respond to lawful requests from authorities, protect the rights, property, or safety of any person, or investigate violations of our Terms.
 - **Business transfers:** If we are involved in a merger, acquisition, financing, or sale of assets, personal information may be transferred as part of that transaction, subject to the receiving party honoring this Policy.

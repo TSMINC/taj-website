@@ -23,7 +23,7 @@ export const siteConfig = {
   description: "Uniynode — a network of connected minds.",
 
   /** Canonical public URL (no trailing slash). Updated when the real domain lands. */
-  url: "https://taj-website.taj-website.workers.dev",
+  url: "https://taj-website.tajmoore74.workers.dev",
 
   /** Contact email addresses per purpose. All route to Taj's inbox until
    *  separate addresses + mailboxes are set up on a real domain. */

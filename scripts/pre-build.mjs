@@ -30,7 +30,7 @@ const isProd = branch === "main";
 
 const prod = {
   NEXT_PUBLIC_ENVIRONMENT: "prod",
-  NEXT_PUBLIC_SITE_URL: "https://taj-website.taj-website.workers.dev",
+  NEXT_PUBLIC_SITE_URL: "https://taj-website.tajmoore74.workers.dev",
   NEXT_PUBLIC_SUPABASE_URL: "https://nuyjjdbtfoaagfsjtkev.supabase.co",
   NEXT_PUBLIC_SUPABASE_ANON_KEY:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im51eWpqZGJ0Zm9hYWdmc2p0a2V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNjY1MzEsImV4cCI6MjEwNjY0MjUzMX0.JFQuQS4PfMkxG5MIpIeGcbrJr46xlohS1WxtlvaNtu0",
@@ -41,7 +41,7 @@ const prod = {
 
 const preview = {
   NEXT_PUBLIC_ENVIRONMENT: "dev",
-  NEXT_PUBLIC_SITE_URL: `https://${branch}.taj-website.workers.dev`,
+  NEXT_PUBLIC_SITE_URL: `https://${branch}-taj-website.tajmoore74.workers.dev`,
   NEXT_PUBLIC_SUPABASE_URL: "https://oogxfjfciimzdalsjzxt.supabase.co",
   NEXT_PUBLIC_SUPABASE_ANON_KEY:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9vZ3hmamZjaWltemRhbHNqenh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwNjY0MDMsImV4cCI6MjEwNjY0MjQwM30.o8NZORolfliWnl5xzgz8QHPTGNyIPmnfPGeIGsLiAzk",

@@ -17,7 +17,7 @@ The Service is directed at residents of the United States. If you access the Ser
 
 ## 2. Your Account
 
-You may create an account using Google, Apple, or email. You are responsible for maintaining the confidentiality of the credentials or sign-in method associated with your account and for all activity that occurs under your account. You agree to notify us immediately at {{EMAIL_SUPPORT}} of any unauthorized use.
+You may create an account using your email address (we send a sign-in link; no password is stored). You are responsible for maintaining control of the email account you sign in with and for all activity that occurs under your account. You agree to notify us immediately at {{EMAIL_SUPPORT}} of any unauthorized use.
 
 You agree to provide accurate information, keep it current, and not impersonate any person or entity.
 
@@ -43,7 +43,7 @@ Content you submit to the Service remains yours. By submitting content you grant
 
 ## 5. Third-Party Services
 
-The Service relies on third-party providers including (without limitation): Supabase (database and authentication), Cloudflare (hosting, security, edge delivery), Google and Apple (identity/sign-in), and Stripe (payment processing, when enabled). Your use of these third-party services through the Service is also subject to their respective terms and privacy policies. We are not responsible for the practices of third-party providers.
+The Service relies on third-party providers including (without limitation): Supabase (database and authentication), Cloudflare (hosting, security, edge delivery), and Stripe (payment processing, when enabled). Your use of these third-party services through the Service is also subject to their respective terms and privacy policies. We are not responsible for the practices of third-party providers.
 
 ## 6. Fees and Payments
 
